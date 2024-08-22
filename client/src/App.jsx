@@ -6,6 +6,7 @@ import { lazy, Suspense } from "react";
 import { publicRoutes } from "./config/route-configs/public.routes";
 import { protectedRoutes } from "./config/route-configs/protected.routes";
 import AppLayout from "./components/layouts/AppLayout.jsx";
+import Blog from "./pages/Blog.jsx";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/:postId" element={<Blog />} />
             <Route element={<PublicRoute />}>
               {publicRoutes.map((route) => (
                 <Route

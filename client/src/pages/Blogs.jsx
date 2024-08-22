@@ -1,18 +1,23 @@
 import { getPosts } from '../services/user.api';
 import useQuery from '../hooks/useQuery';
+import PageLoader from '../components/layouts/PageLoader';
+import { Link } from 'react-router-dom';
 
 const Blogs = () => {
-  const { data } = useQuery(getPosts);
-  console.log(data);
-
+  const { data, isLoading } = useQuery(getPosts);
+console.log(data)
   return (
-    <div className="bg-gray-100 min-h-screen py-16">
+    <div className="bg-black/20 min-h-screen py-16">
       <h1 className="text-4xl font-bold text-center mb-8 mt-6 text-indigo-600">All Available Blogs</h1>
-      {data && data.data && data.data.posts && data.data.posts.length > 0 ? (
+
+      {isLoading ? (
+        <PageLoader />
+      ) : data && data.data && data.data.posts && data.data.posts.length > 0 ? (
         data.data.posts.map((blog) => (
-          <div 
-            key={blog.title} 
-            className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-8 transform transition-transform duration-300 hover:scale-105"
+          <Link 
+            to={`/blogs/${blog._id}`} 
+            key={blog._id} 
+            className="block max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-8 transform transition-transform duration-300 hover:scale-105"
           >
             <img className="w-full h-64 object-cover" src={blog.image} alt={blog.title} />
             <div className="p-6">
@@ -30,7 +35,7 @@ const Blogs = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <p className="text-center text-gray-600">No blogs available</p>

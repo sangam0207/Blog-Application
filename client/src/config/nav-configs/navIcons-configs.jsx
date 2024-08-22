@@ -20,6 +20,4 @@ export const navIcons = {
   profile: <BiUserCircle />,
   gallery: <BiImages />,
   blog: <BiBookOpen />,
-  
- 
 };

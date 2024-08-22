@@ -5,11 +5,6 @@ export const navItems = [
     label: "Profile",
   },
   {
-    key: "dashboard",
-    path: "/dashboard",
-    label: "Dashboard",
-  },
-  {
     key: "gallery",
     path: "/gallery",
     label: "Gallery",
@@ -18,7 +13,5 @@ export const navItems = [
     key: "createPost",
     path: "/createPost",
     label: "Create",
-  },
- 
- 
+  }
 ];

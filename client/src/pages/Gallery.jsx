@@ -1,15 +1,16 @@
-
 import { useApi } from '../services/post.api';
 import useQuery from '../hooks/useQuery';
 import { toast } from 'sonner';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import PageLoader from '../components/layouts/PageLoader';
+
 const Gallery = () => {
   const { ownPost, deletePost } = useApi();
-const navigate=useNavigate()
+  const navigate = useNavigate();
   const { data, isLoading, isError, error, refetch } = useQuery(ownPost, {
     onError: (error) => {
       toast.error(error?.message || 'Failed to fetch posts');
-    }
+    },
   });
 
   const handleDelete = async (postId) => {
@@ -23,18 +24,24 @@ const navigate=useNavigate()
   };
 
   if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
-
-  if (isError) {
-    return <div className="text-center py-10 text-red-500">{error.message}</div>;
+    return <PageLoader/>;
   }
 
   return (
-    <div >
-      <div className="bg-white bg-opacity-100 p-8 rounded-lg shadow-lg w-full h-screen">
-        <h1 className="text-3xl font-bold mb-6 mt-12 text-gray-900 text-center">Gallery</h1>
-        <div className="overflow-auto max-h-screen">
+    <div className="bg-white bg-opacity-100 p-8 rounded-lg shadow-lg w-full h-screen">
+      <h1 className="text-3xl font-bold mb-6 mt-12 text-gray-900 text-center">Gallery</h1>
+      <div className="overflow-auto max-h-screen">
+        {data.posts.length === 0 ? (
+          <div className="text-center">
+            <p className="text-lg text-gray-700 mb-4">No available items yet.</p>
+            <button
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              onClick={() => navigate('/createPost')}
+            >
+              Create Post
+            </button>
+          </div>
+        ) : (
           <table className="min-w-full bg-white text-gray-900 border border-gray-200 rounded-lg shadow">
             <thead>
               <tr className="bg-gray-800 text-white">
@@ -53,7 +60,7 @@ const navigate=useNavigate()
                   <td className="py-3 px-6 border-b border-gray-700 text-center">
                     <button
                       className="bg-blue-600 text-white px-4 py-2 rounded mr-2 hover:bg-blue-700"
-                      onClick={() =>navigate(`/edit/${post._id}`)}
+                      onClick={() => navigate(`/edit/${post._id}`)}
                     >
                       Edit
                     </button>
@@ -68,7 +75,7 @@ const navigate=useNavigate()
               ))}
             </tbody>
           </table>
-        </div>
+        )}
       </div>
     </div>
   );
